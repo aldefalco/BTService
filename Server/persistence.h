@@ -6,14 +6,23 @@ namespace BTService { namespace Server {
 	class Persistence
 	{
 	public:
-		using Task = std::function<void(std::ostream&)>; // void (*)(std::ostream& s);
-		//using StreamFactory = std::ostream&& (*)(const std::string &name);
+		using Task = std::function<void(std::ostream&)>; 
 
+		/*!
+		* Constructor
+		* \param timeout The timeout between background task execution
+		* \param task The task functor, it takes a ostream as parametr for serialization and called in background thread
+		*/
 		Persistence(int timeout, Task task);
-		//Persistence(std::ostream && stream, int timeout, Task task);
 		virtual ~Persistence();
 
+		/*!
+		* Start persistence background thread
+		*/
 		void start();
+		/*
+		* Stop background thread
+		*/
 		void stop();
 
 	protected:
@@ -30,6 +39,11 @@ namespace BTService { namespace Server {
 		// Template method implementation that starts in a separate background thread
 		void _task_template();
 
+	protected:
+		Log::Logger logger{ Log::create("Persistence") };
+
+		
+
 	private:
 		std::thread thread;
 		std::timed_mutex stopped;
@@ -39,11 +53,18 @@ namespace BTService { namespace Server {
 		Task task;
 	};
 
+
 	// Persist to binary file
 	class PersistenceFile : public Persistence
 	{
 	public:
 
+		/*!
+		* Constructor 
+		* \param file The file name for binary persistence
+		* \param timeout The timeout between background task execution
+		* \param task The task functor, it takes a ostream as parametr for serialization and called in background thread
+		*/
 		PersistenceFile(const std::string& file, int timeout, Task task);
 
 	private:
@@ -52,17 +73,22 @@ namespace BTService { namespace Server {
 
 	private:
 		std::string file;
-		
 		std::ofstream stream;
-
 	};
+	
 
 	// Persist to string for test purpouses
 	class PersistenceString : public Persistence
 	{
 	public:
-		using Complete = std::function<void(const std::string&)>;//void (*)(const std::string& str);
+		using Complete = std::function<void(const std::string&)>;
 
+		/*!
+		* Constructor
+		* \param complete The functor that will be called when the persisting routine completed. It taks a result string parametr.
+		* \param timeout The timeout between background task execution
+		* \param task The task functor, it takes a ostream as parametr for serialization and called in background thread
+		*/
 		PersistenceString(int timeout, Task task, Complete complete);
 
 	private:

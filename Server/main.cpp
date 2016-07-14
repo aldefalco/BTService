@@ -26,8 +26,6 @@ namespace BTService { namespace Server {
 		{
 			Server server{ boost::lexical_cast<int>(argv[1]), boost::lexical_cast<int>(argv[2]) };
 			server.run();
-			//Client client { boost::lexical_cast<int>(argv[1]), argv[2] };
-			//client.run();
 		}
 		catch (const std::exception& e)
 		{

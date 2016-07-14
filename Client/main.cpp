@@ -1,8 +1,7 @@
-
+#include "stdafx.h"
 #include "log.h"
+#include "..\Server\data.h"
 #include "client.h"
-
-#include <boost\lexical_cast.hpp>
 
 namespace BTService { namespace Client {
 
@@ -10,20 +9,27 @@ namespace BTService { namespace Client {
 
 	int start(int argc, char* argv[])
 	{
-		Log::setup();
-		Log::Logger logger{Log::create("Main")};
+		int id;
 
-		LINFO() << "Client for binary tree service, version " << VERSION ;
-
-		if (argc < 4)
+		try 
 		{
-			LERROR() << "Usage: client <client id> <host> <port>";
+			if (argc < 4)
+				throw;
+			id = boost::lexical_cast<int>(argv[1]);
+		}
+		catch (const std::exception&)
+		{
+			std::cout << "Usage: client <client id> <host> <port>" << std::endl;
 			return -1;
 		}
 
+		Log::setup(id);
+		Log::Logger logger{ Log::create("Main") };
+
 		try
 		{
-			Client client { boost::lexical_cast<int>(argv[1]), argv[2], argv[3] };
+			LINFO() << "Client for binary tree service, version " << VERSION;
+			Client client { id, argv[2], argv[3] };
 			client.run();
 		}
 		catch (const std::exception& e)

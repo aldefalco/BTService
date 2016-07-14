@@ -33,8 +33,9 @@ namespace BTService { namespace Server { namespace Log {
 		boost::log::add_console_log(
 			std::clog, 
 			keywords::filter = expr::attr< Level >("Severity") >= Level::Trace,
-			keywords::format = expr::format("[%1%] <%2%> [%3%] %4%")
+			keywords::format = expr::format("[%1%] [%2%] <%3%> [%4%] %5%")
 			% expr::format_date_time< boost::posix_time::ptime >("TimeStamp", "%Y-%m-%d, %H:%M:%S.%f")
+			% expr::attr< attrs::current_thread_id::value_type>("ThreadID")
 			% expr::attr< Level >("Severity")
 			% expr::attr< std::string >("Module")
 			% expr::message
@@ -43,8 +44,9 @@ namespace BTService { namespace Server { namespace Log {
 		boost::log::add_file_log(
 			"server.log",
 			keywords::filter = expr::attr< Level >("Severity") >= Level::Trace,
-			keywords::format = expr::format("[%1%] <%2%> [%3%] %4%")
+			keywords::format = expr::format("[%1%] [%2%] <%3%> [%4%] %5%")
 			% expr::format_date_time< boost::posix_time::ptime >("TimeStamp", "%Y-%m-%d, %H:%M:%S.%f")
+			% expr::attr< attrs::current_thread_id::value_type>("ThreadID")
 			% expr::attr< Level >("Severity")
 			% expr::attr< std::string >("Module")
 			//% expr::format_named_scope("Scope", keywords::format = "%n (%f:%l)")

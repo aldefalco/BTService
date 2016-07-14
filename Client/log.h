@@ -18,7 +18,7 @@ namespace BTService { namespace Client { namespace Log {
 
 	using Logger = boost::log::sources::severity_channel_logger_mt<Level, std::string>;
 	
-	void setup();
+	void setup(int id);
 	Logger create(const std::string& name);
 
 #define LOG_INFO(logger) BOOST_LOG_SEV(logger, Log::Level::Info)
@@ -31,27 +31,5 @@ namespace BTService { namespace Client { namespace Log {
 #define LTRACE() BOOST_LOG_SEV(logger, Log::Level::Trace)
 #define LWARNING() BOOST_LOG_SEV(logger, Log::Level::Warning)
 #define LERROR() BOOST_LOG_SEV(logger, Log::Level::Error)
-
-	// The formatting logic for the severity level
-	template< typename CharT, typename TraitsT >
-	inline std::basic_ostream< CharT, TraitsT >& operator<< (
-		std::basic_ostream< CharT, TraitsT >& strm, Level lvl)
-	{
-		static const char* const str[] =
-		{
-			"Trace",
-			"Debug",
-			"Info",
-			"Warning",
-			"Error",
-			"Critical"
-		};
-		if (static_cast< std::size_t >(lvl) < (sizeof(str) / sizeof(*str)))
-			strm << str[static_cast< int >(lvl)];
-		else
-			strm << static_cast< int >(lvl);
-		return strm;
-	}
-
 
 }}}

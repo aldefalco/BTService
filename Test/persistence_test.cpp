@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "..\Server\log.h"
 #include "..\Server\persistence.h"
 
 

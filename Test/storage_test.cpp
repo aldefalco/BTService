@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include "..\Server\log.h"
 #include "..\Server\storage.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -94,6 +95,37 @@ namespace Test
 		{
 			const int keys[]{ 23, 0 };
 			const int expected = 23 * 23 /2;
+
+			int result{ -1000 };
+
+			for (auto key : keys)
+			{
+				result = storage->update(key);
+			}
+
+			Assert::AreEqual(expected, result, L"invalid update", LINE_INFO());
+		}
+
+		TEST_METHOD(should_handle_only_0_number)
+		{
+			const int keys[]{ 0 };
+			const int expected = 0;
+
+			int result{ -1000 };
+
+			for (auto key : keys)
+			{
+				result = storage->update(key);
+			}
+
+			Assert::AreEqual(expected, result, L"invalid update", LINE_INFO());
+		}
+
+
+		TEST_METHOD(should_handle_only_negotive_number)
+		{
+			const int keys[]{ -1 };
+			const int expected = 0;
 
 			int result{ -1000 };
 

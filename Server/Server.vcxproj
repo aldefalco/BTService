@@ -147,6 +147,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="data.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="persistence.h" />
     <ClInclude Include="server.h" />
