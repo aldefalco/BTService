@@ -32,7 +32,7 @@ namespace BTService { namespace Server {
 		int square_sum_cache{ 0 };
 		std::mutex mutex;
 
-		Log::Logger logger{ Log::create("Server") };
+		Log::Logger logger{ Log::create("Storage") };
 		
 	};
 
