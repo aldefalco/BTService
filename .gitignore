@@ -1,0 +1,14 @@
+/*.opendb
+/*.db
+/Debug
+/.vs
+/Client/Debug
+/Server/Debug
+/Test/Debug
+/Test/*.filters
+/Server/*.filters
+/Server/bt.bin
+/Client/Client.vcxproj.filters
+/ipch/SERVER-fad6af6/*.ipch
+/ipch/CLIENT-c014bbc6/*.ipch
+/ipch/TEST-a4605f68/*.ipch
