@@ -155,20 +155,33 @@ namespace Test
 		TEST_METHOD(should_serialize_to_stream)
 		{
 			// TODO: this test seems to be failed now. It needs to be rewritten as the expectation should be a binary structure
-			const std::string expected = "BT\n285\n10\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n";
+			//const std::string expected = "BT\n285\n10\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n";
+
+#pragma pack(push,1)
+			struct Exp
+			{
+				char h[2] = { 'B', 'T' };
+				int a{ 4 };
+				int v{ 1 };
+				int i0{ 2 };
+			} expected;
+#pragma pack(pop)
+
+			const int fix = 2;
 
 			std::stringstream s;
 			
-			for (int key = 0; key < 10; key++)
-			{
-				storage->update(key);
-			}
-
+			storage->update(fix);
 			storage->serialize(s);
 
-			const std::string result = s.str();
+			const std::string result_string = s.str();
+			const char* result = result_string.c_str();
+			const char* expected_buf = reinterpret_cast<char*>(&expected);
 
-			Assert::AreEqual(expected, result, L"invalid update", LINE_INFO());
+			for (int i = 0; i < sizeof Exp; i++)
+			{
+				Assert::AreEqual(expected_buf[i], result[i], L"invalid update", LINE_INFO());
+			}
 		}
 
 
